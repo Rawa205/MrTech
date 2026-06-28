@@ -17,6 +17,38 @@ export function RouteMotion() {
     ).matches;
     let linkTimer: number | undefined;
     let targetTimer: number | undefined;
+    let fallbackRevealTimer: number | undefined;
+    let progressTimer: number | undefined;
+    let scrollEndTarget: HTMLElement | undefined;
+
+    function clearRouteTimers() {
+      window.clearTimeout(linkTimer);
+      window.clearTimeout(targetTimer);
+      window.clearTimeout(fallbackRevealTimer);
+      window.clearTimeout(progressTimer);
+    }
+
+    function finishTargetReveal(target: HTMLElement) {
+      target.classList.remove("route-target-active");
+      void target.offsetWidth;
+      target.classList.add("route-target-active");
+
+      document.body.classList.remove("route-navigating");
+
+      targetTimer = window.setTimeout(() => {
+        target.classList.remove("route-target-active");
+      }, 1800);
+    }
+
+    function handleScrollEnd() {
+      if (!scrollEndTarget) {
+        return;
+      }
+
+      window.clearTimeout(fallbackRevealTimer);
+      finishTargetReveal(scrollEndTarget);
+      scrollEndTarget = undefined;
+    }
 
     function handleClick(event: MouseEvent) {
       if (
@@ -52,17 +84,27 @@ export function RouteMotion() {
 
       event.preventDefault();
 
-      window.clearTimeout(linkTimer);
-      window.clearTimeout(targetTimer);
+      clearRouteTimers();
+      window.removeEventListener("scrollend", handleScrollEnd);
 
       link.classList.remove("route-link-clicked");
       target.classList.remove("route-target-active");
+      document.body.classList.remove("route-navigating");
 
       void link.offsetWidth;
       void target.offsetWidth;
+      void document.body.offsetWidth;
 
       link.classList.add("route-link-clicked");
-      target.classList.add("route-target-active");
+
+      const distance = Math.abs(target.getBoundingClientRect().top);
+      const fallbackRevealDelay = prefersReducedMotion
+        ? 0
+        : Math.min(980, Math.max(520, distance * 0.42));
+
+      if (!prefersReducedMotion) {
+        document.body.classList.add("route-navigating");
+      }
 
       target.scrollIntoView({
         behavior: prefersReducedMotion ? "auto" : "smooth",
@@ -70,20 +112,34 @@ export function RouteMotion() {
       });
       window.history.pushState(null, "", `#${targetId}`);
 
+      if (prefersReducedMotion) {
+        finishTargetReveal(target);
+      } else {
+        scrollEndTarget = target;
+        window.addEventListener("scrollend", handleScrollEnd, { once: true });
+
+        fallbackRevealTimer = window.setTimeout(() => {
+          window.removeEventListener("scrollend", handleScrollEnd);
+          finishTargetReveal(target);
+          scrollEndTarget = undefined;
+        }, fallbackRevealDelay);
+
+        progressTimer = window.setTimeout(() => {
+          document.body.classList.remove("route-navigating");
+        }, fallbackRevealDelay + 520);
+      }
+
       linkTimer = window.setTimeout(() => {
         link.classList.remove("route-link-clicked");
-      }, 520);
-
-      targetTimer = window.setTimeout(() => {
-        target.classList.remove("route-target-active");
-      }, 920);
+      }, 700);
     }
 
     document.addEventListener("click", handleClick);
     return () => {
       document.removeEventListener("click", handleClick);
-      window.clearTimeout(linkTimer);
-      window.clearTimeout(targetTimer);
+      window.removeEventListener("scrollend", handleScrollEnd);
+      clearRouteTimers();
+      document.body.classList.remove("route-navigating");
     };
   }, []);
 
