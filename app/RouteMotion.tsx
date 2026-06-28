@@ -12,13 +12,35 @@ function getTargetId(href: string) {
 
 export function RouteMotion() {
   useEffect(() => {
+    const prefersReducedMotion = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    const scrollDelay = prefersReducedMotion ? 0 : 180;
+    const revealDelay = prefersReducedMotion ? 0 : 420;
+    const transitionDuration = prefersReducedMotion ? 0 : 980;
     let linkTimer: number | undefined;
     let targetTimer: number | undefined;
+    let scrollTimer: number | undefined;
+    let revealTimer: number | undefined;
+    let transitionTimer: number | undefined;
 
     function handleClick(event: MouseEvent) {
-      const link = (event.target as Element | null)?.closest<HTMLAnchorElement>(
-        'a[href^="#"]',
-      );
+      if (
+        event.defaultPrevented ||
+        event.button !== 0 ||
+        event.metaKey ||
+        event.ctrlKey ||
+        event.shiftKey ||
+        event.altKey
+      ) {
+        return;
+      }
+
+      if (!(event.target instanceof Element)) {
+        return;
+      }
+
+      const link = event.target.closest<HTMLAnchorElement>('a[href^="#"]');
 
       if (!link) {
         return;
@@ -34,17 +56,36 @@ export function RouteMotion() {
         return;
       }
 
+      event.preventDefault();
+
       window.clearTimeout(linkTimer);
       window.clearTimeout(targetTimer);
+      window.clearTimeout(scrollTimer);
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(transitionTimer);
 
+      document.body.classList.remove("route-transitioning");
       link.classList.remove("route-link-clicked");
       target.classList.remove("route-target-active");
 
+      void document.body.offsetWidth;
       void link.offsetWidth;
       void target.offsetWidth;
 
+      document.body.classList.add("route-transitioning");
       link.classList.add("route-link-clicked");
-      target.classList.add("route-target-active");
+
+      scrollTimer = window.setTimeout(() => {
+        target.scrollIntoView({
+          behavior: prefersReducedMotion ? "auto" : "smooth",
+          block: "start",
+        });
+        window.history.pushState(null, "", `#${targetId}`);
+      }, scrollDelay);
+
+      revealTimer = window.setTimeout(() => {
+        target.classList.add("route-target-active");
+      }, revealDelay);
 
       linkTimer = window.setTimeout(() => {
         link.classList.remove("route-link-clicked");
@@ -52,7 +93,11 @@ export function RouteMotion() {
 
       targetTimer = window.setTimeout(() => {
         target.classList.remove("route-target-active");
-      }, 1400);
+      }, revealDelay + 1500);
+
+      transitionTimer = window.setTimeout(() => {
+        document.body.classList.remove("route-transitioning");
+      }, transitionDuration);
     }
 
     document.addEventListener("click", handleClick);
@@ -60,6 +105,10 @@ export function RouteMotion() {
       document.removeEventListener("click", handleClick);
       window.clearTimeout(linkTimer);
       window.clearTimeout(targetTimer);
+      window.clearTimeout(scrollTimer);
+      window.clearTimeout(revealTimer);
+      window.clearTimeout(transitionTimer);
+      document.body.classList.remove("route-transitioning");
     };
   }, []);
 

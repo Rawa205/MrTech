@@ -50,6 +50,19 @@ body::before {
   animation: loading-wipe 1080ms var(--ease) forwards;
 }
 
+body.route-transitioning::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 998;
+  pointer-events: none;
+  background:
+    linear-gradient(115deg, transparent 0 28%, rgba(255, 255, 255, 0.72) 43%, transparent 58%),
+    linear-gradient(135deg, #ffffff 0%, #edf6ff 42%, #dff6ff 100%);
+  background-size: 230% 100%, 100% 100%;
+  animation: route-page-wipe 980ms var(--ease) both;
+}
+
 ::selection {
   color: #ffffff;
   background: var(--blue);
@@ -349,8 +362,9 @@ h1 {
   margin-top: 18px;
   color: #ffffff;
   font-size: clamp(2.65rem, 7.4vw, 6.2rem);
-  line-height: 1.04;
+  line-height: 1.18;
   letter-spacing: 0;
+  padding-block: 0.04em 0.16em;
   text-shadow: 0 22px 70px rgba(0, 0, 0, 0.3);
   text-wrap: balance;
   animation:
@@ -993,6 +1007,31 @@ section[id] {
   }
 }
 
+@keyframes route-page-wipe {
+  0% {
+    opacity: 0;
+    background-position: 140% 0, center;
+    clip-path: inset(0 0 0 100%);
+  }
+
+  28% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
+
+  56% {
+    opacity: 1;
+    background-position: 0 0, center;
+    clip-path: inset(0 0 0 0);
+  }
+
+  100% {
+    opacity: 0;
+    background-position: -80% 0, center;
+    clip-path: inset(0 100% 0 0);
+  }
+}
+
 @keyframes hero-stage {
   from {
     opacity: 0.86;
@@ -1383,6 +1422,7 @@ section[id] {
 
   h1 {
     font-size: clamp(2.45rem, 14vw, 4rem);
+    line-height: 1.2;
   }
 
   .hero-copy p,
