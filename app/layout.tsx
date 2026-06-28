@@ -32,7 +32,30 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ckb" dir="rtl">
-      <body>{children}</body>
+      <body>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (() => {
+                if ("scrollRestoration" in history) {
+                  history.scrollRestoration = "manual";
+                }
+
+                if (window.location.hash) {
+                  history.replaceState(
+                    null,
+                    "",
+                    window.location.pathname + window.location.search
+                  );
+                }
+
+                window.scrollTo(0, 0);
+              })();
+            `,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
