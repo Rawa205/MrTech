@@ -17,6 +17,7 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { MobileNavMenu } from "./MobileNavMenu";
 import { siteContent } from "./siteContent";
 import pic1 from "../pic/pic1.jpg";
 import pic2 from "../pic/pic2.jpg";
@@ -47,6 +48,7 @@ export default function Home() {
     highlights,
     highlightsLabel,
     nav,
+    navMenuLabel,
     process,
     services,
     works,
@@ -83,6 +85,7 @@ export default function Home() {
                 </a>
               ))}
             </div>
+            <MobileNavMenu label={navMenuLabel} items={nav} />
           </nav>
 
           <div className="hero-content">

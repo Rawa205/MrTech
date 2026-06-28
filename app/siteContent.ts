@@ -28,6 +28,7 @@ type SiteContent = {
     mark: string;
     tagline: string;
   };
+  navMenuLabel: string;
   nav: LinkText[];
   hero: {
     eyebrow: string;
@@ -108,6 +109,7 @@ export const siteContent: SiteContent = {
     mark: "MR",
     tagline: "Web & IT Studio",
   },
+  navMenuLabel: "مێنیو",
   nav: [
     { label: "خزمەتگوزاری", href: "#services" },
     { label: "ڕێگاکەمان", href: "#process" },
