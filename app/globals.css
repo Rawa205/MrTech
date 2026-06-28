@@ -226,6 +226,10 @@ p {
   color: var(--blue-deep);
 }
 
+a.route-link-clicked {
+  animation: route-link-pulse 620ms var(--ease) both;
+}
+
 .mobile-menu {
   position: relative;
   display: none;
@@ -509,6 +513,37 @@ h1 {
 
 section[id] {
   scroll-margin-top: 92px;
+}
+
+.route-target-active > .shell {
+  position: relative;
+  isolation: isolate;
+  animation: route-target-rise 760ms var(--ease) both;
+}
+
+.route-target-active > .shell::before {
+  content: "";
+  position: absolute;
+  inset: -18px;
+  z-index: -1;
+  pointer-events: none;
+  border-radius: 14px;
+  border: 1px solid rgba(24, 166, 217, 0.28);
+  background:
+    linear-gradient(90deg, rgba(18, 102, 241, 0.12), rgba(24, 167, 121, 0.1)),
+    rgba(255, 255, 255, 0.18);
+  box-shadow: 0 24px 70px rgba(18, 102, 241, 0.14);
+  animation: route-target-glow 1180ms var(--ease) both;
+}
+
+.process-section.route-target-active > .shell::before,
+.contact-section.route-target-active > .shell::before,
+.hero.route-target-active > .shell::before {
+  border-color: rgba(255, 255, 255, 0.24);
+  background:
+    linear-gradient(90deg, rgba(255, 255, 255, 0.14), rgba(24, 166, 217, 0.12)),
+    rgba(255, 255, 255, 0.08);
+  box-shadow: 0 28px 80px rgba(24, 166, 217, 0.18);
 }
 
 .section-heading {
@@ -1155,6 +1190,69 @@ section[id] {
   100% {
     opacity: 1;
     transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes route-link-pulse {
+  0% {
+    color: var(--blue-deep);
+    background-position: 120% center;
+    box-shadow: 0 0 0 0 rgba(24, 166, 217, 0);
+    transform: translateY(0) scale(1);
+  }
+
+  38% {
+    color: #ffffff;
+    background:
+      linear-gradient(110deg, var(--blue), var(--cyan) 52%, var(--green));
+    background-position: center;
+    box-shadow: 0 0 0 8px rgba(24, 166, 217, 0.14);
+    transform: translateY(-2px) scale(1.045);
+  }
+
+  100% {
+    box-shadow: 0 0 0 0 rgba(24, 166, 217, 0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes route-target-rise {
+  0% {
+    opacity: 0.82;
+    filter: saturate(0.92);
+    transform: translateY(22px) scale(0.988);
+  }
+
+  48% {
+    opacity: 1;
+    filter: saturate(1.08);
+    transform: translateY(-4px) scale(1.006);
+  }
+
+  100% {
+    opacity: 1;
+    filter: saturate(1);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes route-target-glow {
+  0% {
+    opacity: 0;
+    clip-path: inset(48% 48% 48% 48%);
+    transform: scale(0.98);
+  }
+
+  34% {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: scale(1);
+  }
+
+  100% {
+    opacity: 0;
+    clip-path: inset(0 0 0 0);
+    transform: scale(1.015);
   }
 }
 

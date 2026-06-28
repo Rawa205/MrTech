@@ -18,6 +18,7 @@ import {
   Sparkles,
 } from "lucide-react";
 import { MobileNavMenu } from "./MobileNavMenu";
+import { RouteMotion } from "./RouteMotion";
 import { siteContent } from "./siteContent";
 import pic1 from "../pic/pic1.jpg";
 import pic2 from "../pic/pic2.jpg";
@@ -56,6 +57,7 @@ export default function Home() {
 
   return (
     <main>
+      <RouteMotion />
       <section className="hero" id="home" aria-labelledby="hero-title">
         <div className="hero-media" aria-hidden="true">
           <Image
