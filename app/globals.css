@@ -13,6 +13,7 @@
   --shadow: 0 24px 70px rgba(24, 70, 122, 0.16);
   --shadow-strong: 0 32px 90px rgba(8, 47, 109, 0.28);
   --ease: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 * {
@@ -92,7 +93,7 @@ p {
   padding: 16px 0 46px;
   color: #ffffff;
   background: var(--blue-night);
-  animation: soft-fade 560ms var(--ease) both;
+  animation: soft-fade 900ms var(--ease-soft) both;
 }
 
 .hero::before {
@@ -110,7 +111,7 @@ p {
   inset: 0;
   z-index: -2;
   background: #0b2a55;
-  animation: media-soft-in 700ms var(--ease) both;
+  animation: media-soft-in 1150ms var(--ease-soft) both;
 }
 
 .hero-media img {
@@ -143,7 +144,7 @@ p {
   color: var(--ink);
   backdrop-filter: blur(18px);
   box-shadow: 0 16px 45px rgba(2, 20, 48, 0.18);
-  animation: soft-slide-down 520ms var(--ease) 80ms both;
+  animation: soft-slide-down 780ms var(--ease-soft) 120ms both;
 }
 
 .brand {
@@ -164,7 +165,7 @@ p {
   font-weight: 900;
   letter-spacing: 0;
   box-shadow: 0 12px 24px rgba(18, 102, 241, 0.28);
-  animation: soft-scale 480ms var(--ease) 140ms both;
+  animation: soft-scale 680ms var(--ease-soft) 220ms both;
 }
 
 .brand strong,
@@ -191,20 +192,20 @@ p {
   border-radius: 8px;
   opacity: 0;
   transform: translateY(-8px);
-  animation: soft-rise 420ms var(--ease) 180ms both;
+  animation: soft-rise 620ms var(--ease-soft) 300ms both;
   transition: color 180ms var(--ease), background 180ms var(--ease);
 }
 
 .nav-links a:nth-child(2) {
-  animation-delay: 220ms;
+  animation-delay: 380ms;
 }
 
 .nav-links a:nth-child(3) {
-  animation-delay: 260ms;
+  animation-delay: 460ms;
 }
 
 .nav-links a:nth-child(4) {
-  animation-delay: 300ms;
+  animation-delay: 540ms;
 }
 
 .nav-links a:hover {
@@ -238,7 +239,7 @@ a.route-link-clicked {
   list-style: none;
   opacity: 0;
   transform: translateY(-8px);
-  animation: soft-rise 420ms var(--ease) 180ms both;
+  animation: soft-rise 620ms var(--ease-soft) 300ms both;
   transition:
     color 180ms var(--ease),
     background 180ms var(--ease),
@@ -327,7 +328,7 @@ a.route-link-clicked {
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.1);
   backdrop-filter: blur(12px);
-  animation: soft-rise 500ms var(--ease) 160ms both;
+  animation: soft-blur-rise 760ms var(--ease-soft) 360ms both;
 }
 
 h1 {
@@ -341,7 +342,7 @@ h1 {
   overflow: visible;
   text-shadow: 0 22px 70px rgba(0, 0, 0, 0.3);
   text-wrap: balance;
-  animation: soft-rise 620ms var(--ease) 220ms both;
+  animation: soft-blur-rise 980ms var(--ease-soft) 460ms both;
 }
 
 .hero-copy p {
@@ -350,7 +351,7 @@ h1 {
   color: rgba(255, 255, 255, 0.86);
   font-size: 1.12rem;
   line-height: 2;
-  animation: soft-rise 560ms var(--ease) 300ms both;
+  animation: soft-blur-rise 820ms var(--ease-soft) 620ms both;
 }
 
 .hero-actions {
@@ -379,11 +380,11 @@ h1 {
 }
 
 .hero-actions .button {
-  animation: soft-scale 500ms var(--ease) 380ms both;
+  animation: soft-scale 760ms var(--ease-soft) 780ms both;
 }
 
 .hero-actions .button:nth-child(2) {
-  animation-delay: 440ms;
+  animation-delay: 900ms;
 }
 
 .button.primary {
@@ -433,15 +434,15 @@ h1 {
   border-radius: 8px;
   background: rgba(255, 255, 255, 0.11);
   backdrop-filter: blur(14px);
-  animation: soft-scale 500ms var(--ease) 500ms both;
+  animation: soft-scale 760ms var(--ease-soft) 1020ms both;
 }
 
 .metric:nth-child(2) {
-  animation-delay: 560ms;
+  animation-delay: 1120ms;
 }
 
 .metric:nth-child(3) {
-  animation-delay: 620ms;
+  animation-delay: 1220ms;
 }
 
 .metric strong {
@@ -528,11 +529,11 @@ section[id] {
 .motion-ready .about-list > div,
 .motion-ready .contact-grid {
   opacity: 0;
-  transform: translateY(22px);
+  transform: translateY(30px);
   transition:
-    opacity 820ms var(--ease),
-    transform 820ms var(--ease),
-    filter 820ms var(--ease);
+    opacity 980ms var(--ease-soft),
+    transform 980ms var(--ease-soft),
+    filter 980ms var(--ease-soft);
   transition-delay: var(--reveal-delay, 0ms);
   will-change: opacity, transform;
 }
@@ -542,7 +543,7 @@ section[id] {
 .motion-ready .process-card,
 .motion-ready .about-list > div,
 .motion-ready .contact-grid {
-  transform: translateY(24px) scale(0.985);
+  transform: translateY(34px) scale(0.978);
 }
 
 .motion-ready .section-heading.is-visible,
@@ -1047,6 +1048,20 @@ section[id] {
   }
 }
 
+@keyframes soft-blur-rise {
+  from {
+    opacity: 0;
+    filter: blur(10px);
+    transform: translateY(22px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
 @keyframes soft-scale {
   from {
     opacity: 0;
@@ -1256,6 +1271,7 @@ section[id] {
   .hero {
     padding-top: 10px;
     padding-bottom: 34px;
+    animation-duration: 1050ms;
   }
 
   .hero::before {
@@ -1268,6 +1284,10 @@ section[id] {
     object-position: center top;
   }
 
+  .hero-media {
+    animation-duration: 1250ms;
+  }
+
   .hero-shell {
     min-height: auto;
     gap: 34px;
@@ -1278,6 +1298,8 @@ section[id] {
     align-items: center;
     gap: 10px;
     padding: 10px;
+    animation-duration: 860ms;
+    animation-delay: 140ms;
   }
 
   .nav-links {
@@ -1288,14 +1310,58 @@ section[id] {
     display: block;
   }
 
+  .brand-mark {
+    animation-duration: 760ms;
+    animation-delay: 260ms;
+  }
+
+  .mobile-menu-trigger {
+    animation-duration: 740ms;
+    animation-delay: 360ms;
+  }
+
   .hero-content {
     padding: 42px 0 10px;
+  }
+
+  .eyebrow {
+    animation-duration: 820ms;
+    animation-delay: 460ms;
   }
 
   h1 {
     font-size: clamp(1.92rem, 9.6vw, 3rem);
     line-height: 1.46;
     padding-block: 0.12em 0.42em;
+    animation-duration: 1120ms;
+    animation-delay: 620ms;
+  }
+
+  .hero-copy p {
+    animation-duration: 940ms;
+    animation-delay: 820ms;
+  }
+
+  .hero-actions .button {
+    animation-duration: 860ms;
+    animation-delay: 1040ms;
+  }
+
+  .hero-actions .button:nth-child(2) {
+    animation-delay: 1180ms;
+  }
+
+  .metric {
+    animation-duration: 820ms;
+    animation-delay: 1320ms;
+  }
+
+  .metric:nth-child(2) {
+    animation-delay: 1440ms;
+  }
+
+  .metric:nth-child(3) {
+    animation-delay: 1560ms;
   }
 
   .hero-copy p,
