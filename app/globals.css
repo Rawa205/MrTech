@@ -478,19 +478,6 @@ h1 {
   font-weight: 900;
   text-align: center;
   box-shadow: 0 16px 46px rgba(42, 88, 138, 0.1);
-  animation: soft-rise 520ms var(--ease) 120ms both;
-}
-
-.highlights span:nth-child(2) {
-  animation-delay: 170ms;
-}
-
-.highlights span:nth-child(3) {
-  animation-delay: 220ms;
-}
-
-.highlights span:nth-child(4) {
-  animation-delay: 270ms;
 }
 
 .section {
@@ -530,6 +517,45 @@ section[id] {
     linear-gradient(90deg, rgba(255, 255, 255, 0.1), rgba(24, 166, 217, 0.08)),
     rgba(255, 255, 255, 0.05);
   box-shadow: 0 20px 54px rgba(24, 166, 217, 0.12);
+}
+
+.motion-ready .section-heading,
+.motion-ready .highlights span,
+.motion-ready .service-card,
+.motion-ready .process-card,
+.motion-ready .work-card,
+.motion-ready .about-copy,
+.motion-ready .about-list > div,
+.motion-ready .contact-grid {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 820ms var(--ease),
+    transform 820ms var(--ease),
+    filter 820ms var(--ease);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: opacity, transform;
+}
+
+.motion-ready .work-card,
+.motion-ready .service-card,
+.motion-ready .process-card,
+.motion-ready .about-list > div,
+.motion-ready .contact-grid {
+  transform: translateY(24px) scale(0.985);
+}
+
+.motion-ready .section-heading.is-visible,
+.motion-ready .highlights span.is-visible,
+.motion-ready .service-card.is-visible,
+.motion-ready .process-card.is-visible,
+.motion-ready .work-card.is-visible,
+.motion-ready .about-copy.is-visible,
+.motion-ready .about-list > div.is-visible,
+.motion-ready .contact-grid.is-visible {
+  opacity: 1;
+  filter: none;
+  transform: translateY(0) scale(1);
 }
 
 .route-target-active .section-heading,
@@ -576,7 +602,6 @@ section[id] {
 .section-heading {
   max-width: 760px;
   margin-bottom: 30px;
-  animation: soft-rise 560ms var(--ease) 80ms both;
 }
 
 .section-heading span {
@@ -648,29 +673,6 @@ section[id] {
 .work-card,
 .about-list > div,
 .contact-item {
-  animation: soft-card-rise 560ms var(--ease) both;
-}
-
-.services-grid > :nth-child(2),
-.process-grid > :nth-child(2),
-.works-grid > :nth-child(2),
-.about-list > :nth-child(2),
-.contact-list > :nth-child(2) {
-  animation-delay: 90ms;
-}
-
-.services-grid > :nth-child(3),
-.process-grid > :nth-child(3),
-.works-grid > :nth-child(3),
-.about-list > :nth-child(3),
-.contact-list > :nth-child(3) {
-  animation-delay: 180ms;
-}
-
-.services-grid > :nth-child(4),
-.works-grid > :nth-child(4),
-.contact-list > :nth-child(4) {
-  animation-delay: 270ms;
 }
 
 .service-card::before,
@@ -698,7 +700,6 @@ section[id] {
   border-radius: 8px;
   color: #ffffff;
   background: linear-gradient(135deg, var(--blue), var(--cyan));
-  animation: soft-scale 460ms var(--ease) both;
 }
 
 .service-card:nth-child(2) .icon-box {

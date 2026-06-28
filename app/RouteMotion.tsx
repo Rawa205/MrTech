@@ -10,6 +10,17 @@ function getTargetId(href: string) {
   return decodeURIComponent(href.slice(1));
 }
 
+const revealSelector = [
+  ".section-heading",
+  ".highlights span",
+  ".service-card",
+  ".process-card",
+  ".work-card",
+  ".about-copy",
+  ".about-list > div",
+  ".contact-grid",
+].join(", ");
+
 export function RouteMotion() {
   useEffect(() => {
     const prefersReducedMotion = window.matchMedia(
@@ -30,6 +41,10 @@ export function RouteMotion() {
 
     function finishTargetReveal(target: HTMLElement) {
       target.classList.remove("route-target-active");
+      target
+        .querySelectorAll<HTMLElement>(revealSelector)
+        .forEach((item) => item.classList.add("is-visible"));
+
       void target.offsetWidth;
       target.classList.add("route-target-active");
 
@@ -100,7 +115,7 @@ export function RouteMotion() {
       const distance = Math.abs(target.getBoundingClientRect().top);
       const fallbackRevealDelay = prefersReducedMotion
         ? 0
-        : Math.min(980, Math.max(520, distance * 0.42));
+        : Math.min(1450, Math.max(720, distance * 0.55));
 
       if (!prefersReducedMotion) {
         document.body.classList.add("route-navigating");
